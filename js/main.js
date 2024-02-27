@@ -23,26 +23,52 @@ const tasks = [
   },
 ];
 
+function printTask() {
+  for (const task of tasks) {
+    const nameTask = task.name;
+    list.innerHTML += 
+      `<li class="js-task js-checkbox">
+          <input type="checkbox" id="${nameTask}">
+          <p class="js-text">${nameTask}</p>
+        </li>`;
+  }
+}
+printTask (); 
+
 function handleClick(event) {
   event.preventDefault();
-  const newObject = { name: inputNewTask.value };
+  const newObject = { name: inputNewTask.value, completed: false };
   console.log(newObject);
   tasks.push(newObject);
 
-  for (const task of tasks) {
-    i++;
-    const nameTask = newObject.name;
-    list.innerHTML += `<li class="js-task taskComplete"><input id="${i}" type="checkbox" checked><p>${nameTask}</p></li>`;
-  }
-
-  list.innerHTML += `<li class="js-task"><input id="" type="checkbox" checked><p>${newObject.name}</p></li>`;
+  list.innerHTML = ''; 
+  printTask (); 
 }
+
+//MIRAR MAÑANA JUNTO CON ID 
+function handleCheck (event) {
+  const lineThrough = event.target.id;
+  lineThrough.classList.add('taskComplete'); 
+}
+
+
+
+const checkbox = document.querySelector('.js-checkbox'); 
+
 
 buttonAdd.addEventListener('click', handleClick);
+checkbox.addEventListener('click', handleCheck); 
 
-let i = 0;
-for (const task of tasks) {
-  i++;
-  const nameTask = task.name;
-  list.innerHTML += `<li class="js-task taskComplete"><input id="${i}" type="checkbox" checked><p>${nameTask}</p></li>`;
-}
+
+
+
+/* Al hacer click en la lista ---> evento
+1. Tachar el texto 
+  Añadir la clase taskComplete
+2. Cambiar el estado de completed a true
+  newObject.completed: true; 
+*/
+
+//const text = document.querySelectorAll('.js-text'); 
+
+
