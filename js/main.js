@@ -3,64 +3,51 @@
 const list = document.querySelector('.js-list');
 const buttonAdd = document.querySelector('.js-buttonAdd');
 const inputNewTask = document.querySelector('.js-newTask');
+const GITHUB_USER = 'BiancaMesa';
+const SERVER_URL = `https://dev.adalab.es/api/todo/${GITHUB_USER}`;
 
-const tasks = [
-  {
-    name: 'Recoger setas en el campo',
-    completed: true,
-  },
-  {
-    name: 'Comprar pilas',
-    completed: true,
-  },
-  {
-    name: 'Poner una lavadora de blancos',
-    completed: true,
-  },
-  {
-    name: 'Aprender cómo se realizan las peticiones al servidor en JavaScript',
-    completed: false,
-  },
-];
+let tasks = [];
 
-function printTask() {
+fetch(SERVER_URL)
+  .then((response) => response.json())
+  .then((data) => {
+    tasks = data.results;
+    printTask(tasks);
+  });
+
+function printTask(tasks) {
   for (const task of tasks) {
     const nameTask = task.name;
-    list.innerHTML += 
-      `<li class="js-task js-checkbox">
-          <input type="checkbox" id="${nameTask}">
+    list.innerHTML += `<li>
+          <input type="checkbox" id="">
           <p class="js-text">${nameTask}</p>
         </li>`;
   }
 }
-printTask (); 
 
-function handleClick(event) {
-  event.preventDefault();
-  const newObject = { name: inputNewTask.value, completed: false };
-  console.log(newObject);
-  tasks.push(newObject);
+//Completa el código;
+//Guarda la respuesta obtenida enla variable para el listado de tareas: `tasks`
 
-  list.innerHTML = ''; 
-  printTask (); 
-}
+// function handleClick(event) {
+//   event.preventDefault();
+//   const newObject = { name: inputNewTask.value, completed: false };
+//   console.log(newObject);
+//   tasks.push(newObject);
 
-//MIRAR MAÑANA JUNTO CON ID 
-function handleCheck (event) {
-  const lineThrough = event.target.id;
-  lineThrough.classList.add('taskComplete'); 
-}
+//   list.innerHTML = '';
+//   printTask();
+// }
 
+// //MIRAR MAÑANA JUNTO CON ID
+// function handleCheck(event) {
+//   const lineThrough = event.target.id;
+//   lineThrough.classList.add('taskComplete');
+// }
 
+// const checkbox = document.querySelector('.js-checkbox');
 
-const checkbox = document.querySelector('.js-checkbox'); 
-
-
-buttonAdd.addEventListener('click', handleClick);
-checkbox.addEventListener('click', handleCheck); 
-
-
-
+// buttonAdd.addEventListener('click', handleClick);
+// checkbox.addEventListener('click', handleCheck);
 
 /* Al hacer click en la lista ---> evento
 1. Tachar el texto 
@@ -69,6 +56,4 @@ checkbox.addEventListener('click', handleCheck);
   newObject.completed: true; 
 */
 
-//const text = document.querySelectorAll('.js-text'); 
-
-
+//const text = document.querySelectorAll('.js-text');
