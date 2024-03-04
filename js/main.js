@@ -10,22 +10,8 @@ const inputSearchTask = document.querySelector('.js-searchTask');
 
 let tasks = [];
 
-// La aplicación tiene un formulario para realizar búsquedas de tareas. En este ejercicio vamos a crear una función para filtrar utilizando el método de arrays filter. Para ello:
-// Crea un evento asociado al botón de buscar de la interfaz gráfica.
-// Crea la función manejadora del evento anterior.
-// Dentro de esta función:
-// Obtén el valor del input de filtrar.
-// Filtra las tareas que coinciden con el valor introducido por el usuario.
-// Vuelve a pintar las tareas, esta vez utilizando el listado filtrado.
-// Aquí puedes usar la función de la clase anterior cuando pintaste el listado de tareas.
-
-function handleSearch(event) {
-  const searchValue = inputSearchTask.value;
-  const searchFilter = searchValue.filter();
-}
-buttonSearch.addEventListener('click', handleSearch);
-
 function printTask(tasks) {
+  list.innerHTML = '';
   for (const task of tasks) {
     const nameTask = task.name;
     if (task.completed) {
@@ -62,13 +48,8 @@ function getTasks() {
     .then((data) => {
       tasks = data.results;
       localStorage.setItem('tasks', JSON.stringify(tasks));
-      console.log('1');
       printTask(tasks);
     });
-
-  // .catch((error) => {
-  //   console.log(error);
-  // });
 }
 
 const tasksLocalStorage = JSON.parse(localStorage.getItem('tasks'));
@@ -91,6 +72,7 @@ function handleClick(event) {
 buttonAdd.addEventListener('click', handleClick);
 
 const handleClickCheckbox = (event) => {
+  event.preventDefault();
   list.innerHTML = '';
 
   //Recogemos el valor del id del input seleccionado
@@ -102,10 +84,13 @@ const handleClickCheckbox = (event) => {
   });
 
   //Actualizamos el array y le cambiamos el valor de completed a true porque se ha seleccionado
-  tasks[taskIndex].completed = event.target.checked; //(le da el valor real, true or false, que tenga ese input)
-  console.log(tasks);
+  tasks[taskIndex].completed = !tasks[taskIndex].completed; //(le da el valor real, true or false, que tenga ese input)
 
   printTask(tasks);
 };
 
 list.addEventListener('click', handleClickCheckbox);
+
+// FALTARÍA:
+// Filtrar las tareas
+// Lograr que nos coja los datos de las tareas guardadas en localStorage para poder acceder a la propiedad completed.
